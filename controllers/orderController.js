@@ -1,12 +1,23 @@
 const orderController = require('express').Router();
 
 const { hasUser, isGuest} = require('../middlewares/guards');
-const { getAll, create, getById, update, removeById, completeOrder} = require('../services/orderService');
+const { getAll, create, getById, update, removeById, completeOrder, getByCompleted, getByNotCompleted} = require('../services/orderService');
 const { parseError } = require('../utils/errorParser');
 
 orderController.get('/', hasUser(), async (req, res)=>{
-    let orders = await getAll();
-    res.json(orders);
+    try{
+        let orders = [];
+        if (req.query.where) {
+            const complete = JSON.parse(req.query.where.split('=')[1]);
+            orders = complete == true ? await getByCompleted() : await getByNotCompleted();
+        } else{
+            orders = await getAll();
+        }
+        res.json(orders);
+    } catch(err){
+        const message = parseError(err);
+        res.status(400).json({ message });
+    }
 });
 
 orderController.post('/create', isGuest(), async (req, res) => {

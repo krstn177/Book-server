@@ -8,6 +8,14 @@ async function getById(id) {
     return Order.findById(id);
 }
 
+async function getByCompleted(){
+    return Order.find({ isCompleted: true})
+}
+
+async function getByNotCompleted(){
+    return Order.find({ isCompleted: false})
+}
+
 async function create(order) {
     return Order.create(order);
 }
@@ -39,6 +47,8 @@ async function removeById(id) {
 
 module.exports = {
     getAll,
+    getByCompleted,
+    getByNotCompleted,
     getById,
     create,
     update,
