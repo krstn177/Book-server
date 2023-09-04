@@ -28,7 +28,8 @@ async function update(id, order) {
     initialOrder.email = order.email;
     initialOrder.phoneNumber = order.phoneNumber;
     initialOrder.address = order.address;
-    initialOrder.isCompleted = order.Completed;
+    initialOrder.count = order.count;
+
 
     return initialOrder.save();
 }
