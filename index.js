@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -7,13 +8,12 @@ const session = require('./middlewares/session');
 const authController = require('./controllers/authController');
 const orderController = require('./controllers/orderController');
 
-
 const connectionString = 'mongodb://127.0.0.1:27017/book-orders';
-
+const PORT = process.env.PORT || 3030;
 start();
 
 async function start(){
-    await mongoose.connect(connectionString);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('mongodb connection established');
 
     const app = express();
@@ -31,5 +31,5 @@ async function start(){
     app.use('/auth', authController);
     app.use('/orders', orderController);
     
-    app.listen(3030, ()=> console.log('REST is ON'));
+    app.listen(PORT, ()=> console.log('REST is ON'));
 }
