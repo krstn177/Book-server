@@ -1,6 +1,7 @@
 const orderController = require('express').Router();
 
 const { hasUser, isGuest} = require('../middlewares/guards');
+const { sendPurchaseConfirmationEmail } = require('../services/emailService');
 const { getAll, create, getById, update, removeById, completeOrder, getByCompleted, getByNotCompleted} = require('../services/orderService');
 const { parseError } = require('../utils/errorParser');
 
@@ -24,7 +25,9 @@ orderController.post('/create', isGuest(), async (req, res) => {
     try{
         const data = req.body;
         const order =  await create(data);
-        res.status(201).json(order)
+
+        sendPurchaseConfirmationEmail(order.email);
+        res.status(201).json(order);
     } catch(err){
         const message = parseError(err);
         res.status(400).json({ message });
