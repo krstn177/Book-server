@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-            user: 'christiangeshev@gmail.com',
+            user: 'madrostiotpepelta@gmail.com',
             pass: process.env.GMAIL_PASS
     }
 });
@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 // Function to send a purchase confirmation email
 function sendPurchaseConfirmationEmail(userEmail) {
     const mailOptions = {
-            from: 'Мъдрости от Пепелта <christiangeshev@gmail.com>',
+            from: 'Мъдрости от Пепелта <madrostiotpepelta@gmail.com>',
             to: userEmail,
             subject: 'Благодарим Ви за вашата поръчка',
             html: `<h1>Благодарим Ви, че закупихте книгата "Мъдрости от пепелта"</h1>
